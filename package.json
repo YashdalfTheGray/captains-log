@@ -1,0 +1,34 @@
+{
+  "name": "captains-log",
+  "version": "1.0.0",
+  "description": "Logging time through REST API",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "chalk": "^1.1.1",
+    "del": "^2.2.0",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.0.0",
+    "morgan": "^1.6.1",
+    "nodemon": "^1.8.1",
+    "pouchdb": "^5.2.0",
+    "pouchdb-server": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YashdalfTheGray/captains-log.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YashdalfTheGray/captains-log/issues"
+  },
+  "homepage": "https://github.com/YashdalfTheGray/captains-log#readme"
+}
