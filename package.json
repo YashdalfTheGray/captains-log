@@ -1,0 +1,28 @@
+{
+  "name": "captains-log",
+  "version": "1.0.0",
+  "description": "logging time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YashdalfTheGray/captains-log.git"
+  },
+  "author": "Yash Kulshrestha",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/YashdalfTheGray/captains-log/issues"
+  },
+  "homepage": "https://github.com/YashdalfTheGray/captains-log#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "chalk": "^1.1.1",
+    "express": "^4.13.4",
+    "lodash": "^4.0.1",
+    "morgan": "^1.6.1",
+    "pouchdb": "^5.2.0",
+    "pouchdb-server": "^1.0.0"
+  }
+}
