@@ -15,5 +15,7 @@ All endpoints are mounted at `/api/v1`.
 ### `DELETE /logs/:id`
 
 ### `GET /reports/week`
+This might possibly go into a module of it's own.
 
 ### `GET /reports/day`
+This might possibly go into a module of it's own.
