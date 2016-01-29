@@ -57,6 +57,6 @@ app.put('/api/v1/logs/:id', (req, res) => {
             res.send(500).json(error);
         }
     });
-})
+});
 
 app.listen(process.argv[2] || 8080);
