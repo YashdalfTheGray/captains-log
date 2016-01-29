@@ -59,4 +59,21 @@ app.put('/api/v1/logs/:id', (req, res) => {
     });
 });
 
+app.delete('/api/v1/logs/:id', (req, res) => {
+    req.body._id = req.params.id;
+    db.get(req.params.id).then(result =>{
+        req.body._rev = result._rev;
+        return db.remove(req.body);
+    }).then(result => {
+        res.status(200).json(result);
+    }).catch(error =>{
+        if (error.status === 404) {
+            res.send(404).json('Document not found');
+        }
+        else {
+            res.send(500).json(error);
+        }
+    });
+});
+
 app.listen(process.argv[2] || 8080);
