@@ -5,6 +5,9 @@ var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var chalk = require('chalk');
+var PouchDb = require('pouchdb');
+
+var db = new PouchDb('http://localhost:5984/logs');
 
 var app = express();
 
@@ -17,8 +20,16 @@ app.use(morgan(':remote-addr - ' +
         'time=:response-time ms'));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+app.get('/api/v1/status', (req, res) => {
     res.status(200).json({ status: 'live' });
+});
+
+app.post('/api/v1/logs', (req, res) => {
+    db.post(req.body).then(result => {
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json(error);
+    });
 });
 
 app.listen(process.argv[2] || 8080);
