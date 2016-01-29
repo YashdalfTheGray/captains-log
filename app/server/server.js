@@ -24,9 +24,17 @@ app.get('/api/v1/status', (req, res) => {
     res.status(200).json({ status: 'live' });
 });
 
+app.get('/api/v1/logs', (req, res) => {
+    db.allDocs({ include_docs: true }).then(result => {
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json(error);
+    });
+});
+
 app.post('/api/v1/logs', (req, res) => {
     db.post(req.body).then(result => {
-        res.status(200).json(result);
+        res.status(201).json(result);
     }).catch(error => {
         res.status(500).json(error);
     });
