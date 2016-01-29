@@ -33,6 +33,8 @@ app.get('/api/v1/logs', (req, res) => {
 });
 
 app.post('/api/v1/logs', (req, res) => {
+    req.body.date = req.body.date || new Date().toISOString();
+
     db.post(req.body).then(result => {
         res.status(201).json(result);
     }).catch(error => {
