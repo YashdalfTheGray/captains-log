@@ -1,4 +1,4 @@
-/* global __dirname */
+/* global require */
 // jshint esversion:6
 
 var express = require('express');
@@ -7,9 +7,12 @@ var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var PouchDb = require('pouchdb');
 
+var reports = require('./reports');
+
 var db = new PouchDb('http://localhost:5984/logs');
 
 var app = express();
+var apiRouter = new express.Router();
 
 app.use(morgan(':remote-addr - ' +
         chalk.cyan('[:date] ') +
@@ -20,11 +23,11 @@ app.use(morgan(':remote-addr - ' +
         'time=:response-time ms'));
 app.use(bodyParser.json());
 
-app.get('/api/v1/status', (req, res) => {
+apiRouter.get('/status', (req, res) => {
     res.status(200).json({ status: 'live' });
 });
 
-app.get('/api/v1/logs', (req, res) => {
+apiRouter.get('/logs', (req, res) => {
     db.allDocs({ include_docs: true }).then(result => {
         res.status(200).json(result);
     }).catch(error => {
@@ -32,7 +35,7 @@ app.get('/api/v1/logs', (req, res) => {
     });
 });
 
-app.post('/api/v1/logs', (req, res) => {
+apiRouter.post('/logs', (req, res) => {
     req.body.date = req.body.date || new Date().toISOString();
 
     db.post(req.body).then(result => {
@@ -42,24 +45,24 @@ app.post('/api/v1/logs', (req, res) => {
     });
 });
 
-app.put('/api/v1/logs/:id', (req, res) => {
+apiRouter.put('/logs/:id', (req, res) => {
     req.body._id = req.params.id;
-    db.get(req.params.id).then(result =>{
+    db.get(req.params.id).then(result => {
         req.body._rev = result._rev;
         return db.put(req.body);
     }).then(result => {
         res.status(200).json(result);
     }).catch(error =>{
         if (error.status === 404) {
-            res.send(404).json('Document not found');
+            res.status(404).json('Document not found');
         }
         else {
-            res.send(500).json(error);
+            res.status(500).json(error);
         }
     });
 });
 
-app.delete('/api/v1/logs/:id', (req, res) => {
+apiRouter.delete('/logs/:id', (req, res) => {
     req.body._id = req.params.id;
     db.get(req.params.id).then(result =>{
         req.body._rev = result._rev;
@@ -68,12 +71,15 @@ app.delete('/api/v1/logs/:id', (req, res) => {
         res.status(200).json(result);
     }).catch(error =>{
         if (error.status === 404) {
-            res.send(404).json('Document not found');
+            res.status(404).json('Document not found');
         }
         else {
-            res.send(500).json(error);
+            res.status(500).json(error);
         }
     });
 });
+
+apiRouter.use('/reports', reports({ db: db }));
+app.use('/api/v1', apiRouter);
 
 app.listen(process.argv[2] || 8080);
