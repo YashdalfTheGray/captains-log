@@ -86,7 +86,7 @@ gulp.task('start:nodeserver', function() {
     "use strict";
     nodemon({
         script: 'app/server/server.js',
-        watch: 'app/server/server.js'
+        watch: 'app/server/*.js'
     });
 });
 
