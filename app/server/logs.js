@@ -16,7 +16,14 @@ module.exports = function(config) {
     });
 
     logsRouter.post('/', (req, res) => {
-        req.body.date = Date.parse(req.body.date) || Date.now();
+        if (req.body.date) {
+            if (_.isString(req.body.date)) {
+                req.body.date = Date.parse(req.body.date);
+            }
+        }
+        else {
+            req.body.date = Date.now();
+        }
 
         config.db.post(req.body).then(result => {
             res.status(201).json(result);
