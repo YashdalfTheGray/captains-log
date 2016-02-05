@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var PouchDb = require('pouchdb');
 
-PouchDb.plugin(require('pouchdb-find'));
-
 var logs = require('./logs');
 var reports = require('./reports');
 
