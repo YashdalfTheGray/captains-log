@@ -3,6 +3,7 @@
 // jshint esversion:6
 
 var Router = require('express').Router;
+var _ = require('lodash');
 
 module.exports = function(config) {
     var logsRouter = new Router();
