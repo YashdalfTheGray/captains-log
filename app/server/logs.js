@@ -6,6 +6,7 @@ var Router = require('express').Router;
 var _ = require('lodash');
 
 module.exports = function(config) {
+    var docType = 'log_';
     var logsRouter = new Router();
 
     logsRouter.get('/', (req, res) => {
@@ -25,11 +26,12 @@ module.exports = function(config) {
         else {
             req.body.date = Date.now();
         }
+        var id = docType + req.body.date;
 
-        config.db.post(req.body).then(result => {
+        config.db.put(req.body, id).then(result => {
             res.status(201).json(result);
         }).catch(error => {
-            res.status(500).json(error);
+            res.status(error.status).json(error);
         });
     });
 
