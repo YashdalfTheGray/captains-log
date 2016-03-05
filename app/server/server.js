@@ -15,11 +15,23 @@ var db = new PouchDb('http://localhost:5984/logs');
 var app = express();
 var apiRouter = new express.Router();
 
+morgan.token('color_status', (req, res) => {
+    if (res.statusCode < 300) {
+        return chalk.green(res.statusCode);
+    }
+    else if (res.statusCode >= 300 && res.statusCode < 400) {
+        return chalk.yellow(res.statusCode);
+    }
+    else if (res.statusCode > 400) {
+        return chalk.red(res.statusCode);
+    }
+});
+
 app.use(morgan(':remote-addr - ' +
-        chalk.cyan('[:date] ') +
-        chalk.green('":method :url ') +
+        '[:date] ' +
+        chalk.cyan('":method :url ') +
         chalk.gray('HTTP/:http-version" ') +
-        chalk.yellow(':status ') +
+        ':color_status ' +
         ':res[content-length] ' +
         'time=:response-time ms'));
 app.use(bodyParser.json());
