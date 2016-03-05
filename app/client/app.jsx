@@ -2,16 +2,29 @@ import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import AppRawTheme from './theme';
 
 export default class App extends React.Component {
+
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    }
 
     constructor(props) {
         super(props);
         this.state = { open: false };
 
+        this.getChildContext = this.getChildContext.bind(this);
         this.navMenuClick = this.navMenuClick.bind(this);
         this.menuItemClick = this.menuItemClick.bind(this);
         this.onRequestChange = this.onRequestChange.bind(this);
+    }
+
+    getChildContext() {
+        return {
+            muiTheme: getMuiTheme(AppRawTheme)
+        };
     }
 
     navMenuClick() {
