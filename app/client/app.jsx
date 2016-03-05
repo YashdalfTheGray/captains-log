@@ -1,19 +1,47 @@
 import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
-class App extends React.Component {
+export default class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { open: false };
+
+        this.navMenuClick = this.navMenuClick.bind(this);
+        this.menuItemClick = this.menuItemClick.bind(this);
+        this.onRequestChange = this.onRequestChange.bind(this);
+    }
+
     navMenuClick() {
-        console.log('Nav menu button clicked!');
+        this.setState({ open: !this.state.open });
+    }
+
+    menuItemClick() {
+        console.log('Someone clicked on a menu item!');
+    }
+
+    onRequestChange(open) {
+        this.setState({ open });
     }
 
     render() {
         return (
-            <AppBar
-                title="Captain's Log"
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-                onLeftIconButtonTouchTap={this.navMenuClick} />
+            <div>
+                <AppBar
+                    title="Captain's Log"
+                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    onLeftIconButtonTouchTap={this.navMenuClick} />
+                <LeftNav
+                    docked={false}
+                    width={250}
+                    open={this.state.open}
+                    onRequestChange={this.onRequestChange}>
+                    <MenuItem onTouchTap={this.menuItemClick}>Daily Report</MenuItem>
+                    <MenuItem onTouchTap={this.menuItemClick}>Weekly Report</MenuItem>
+                </LeftNav>
+            </div>
         );
     }
 }
-
-export default App;
