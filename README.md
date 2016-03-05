@@ -31,7 +31,7 @@ Running `gulp clean:all` will remove both the `dist` and the `node_modules` fold
 
 ## Server API
 
-A listing of the server API is included in the `app/server/captains-log-api.md` document. 
+A listing of the server API is included in the `app/server/captains-log-api.md` document.
 
 ## Useful links
 * [React Docs](https://facebook.github.io/react/docs/getting-started.html)
@@ -41,3 +41,4 @@ A listing of the server API is included in the `app/server/captains-log-api.md` 
 * [ES2015 syntax](https://babeljs.io/docs/learn-es2015/)
 * [browserify Docs](https://github.com/substack/node-browserify#usage)
 * [Babel Options](https://babeljs.io/docs/usage/options/)
+* [React and ES6](http://egorsmirnov.me/2015/05/22/react-and-es6-part1.html)
