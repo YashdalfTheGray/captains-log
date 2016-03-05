@@ -1,6 +1,7 @@
 /* global require */
 // jshint esversion:6
 
+var path = require('path');
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -35,6 +36,7 @@ app.use(morgan(':remote-addr - ' +
         ':res[content-length] ' +
         'time=:response-time ms'));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname + '/../client')));
 
 apiRouter.get('/status', (req, res) => {
     res.status(200).json({ status: 'live' });
