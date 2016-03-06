@@ -1,10 +1,13 @@
 import React from 'react';
+import styles from '../styles';
 
 export default class DailyReport extends React.Component {
 
     render() {
         return (
-            <h2>future site of the daily report card/view/something</h2>
+            <div>
+                <h2 style={styles.robotoFont}>Daily Report</h2>
+            </div>
         );
     }
 }
