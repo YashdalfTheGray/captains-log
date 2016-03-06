@@ -4,7 +4,7 @@ This defines the REST API for the Captain's Log server.
 
 All endpoints are mounted at `/api/v1`.
 
-## Log module endpoints
+## Log module
 
 ### `GET /logs`
 
@@ -22,7 +22,7 @@ Replaces the document at the id passed in with the document passed in.
 
 Deletes the document at the passed in id. The rev of the document is also required to be passed in.
 
-## Report module endpoints
+## Report module
 
 The format for the report responses is as follows
 
