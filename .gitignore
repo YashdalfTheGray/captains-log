@@ -1,6 +1,9 @@
 # build folder
 dist/
 
+# sap codes
+app/server/sap-codes.json
+
 # Created by https://www.gitignore.io/api/windows,osx,sublimetext,node,python,django
 
 ### Windows ###
