@@ -5,6 +5,10 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import AppRawTheme from './theme';
 
+import AddEntry from './components/add-entry';
+import DailyReport from './components/daily-report';
+import WeeklyReport from './components/weekly-report';
+
 export default class App extends React.Component {
 
     static childContextTypes = {
@@ -13,11 +17,22 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { open: false };
+        this.state = {
+            open: false,
+            currentView: 'add-entry'
+        };
+
+        this.childViews = {
+            ADD_ENTRY: 'add-entry',
+            DAILY_REPORT: 'daily-report',
+            WEEKLY_REPORT: 'weekly-report'
+        }
 
         this.getChildContext = this.getChildContext.bind(this);
         this.navMenuClick = this.navMenuClick.bind(this);
-        this.menuItemClick = this.menuItemClick.bind(this);
+        this.showAddEntry = this.showAddEntry.bind(this);
+        this.showDailyReport = this.showDailyReport.bind(this);
+        this.showWeeklyReport = this.showWeeklyReport.bind(this);
         this.onRequestChange = this.onRequestChange.bind(this);
     }
 
@@ -31,8 +46,25 @@ export default class App extends React.Component {
         this.setState({ open: !this.state.open });
     }
 
-    menuItemClick() {
-        console.log('Someone clicked on a menu item!');
+    showAddEntry() {
+        this.setState({
+            currentView: this.childViews.ADD_ENTRY,
+            open: false
+        });
+    }
+
+    showDailyReport() {
+        this.setState({
+            currentView: this.childViews.DAILY_REPORT,
+            open: false
+        });
+    }
+
+    showWeeklyReport() {
+        this.setState({
+            currentView: this.childViews.WEEKLY_REPORT,
+            open: false
+        });
     }
 
     onRequestChange(open) {
@@ -40,19 +72,34 @@ export default class App extends React.Component {
     }
 
     render() {
+        var viewNameToShow = this.state.currentView;
+        var viewToShow;
+
+        if (viewNameToShow === this.childViews.ADD_ENTRY) {
+            viewToShow = <AddEntry />;
+        }
+        else if (viewNameToShow === this.childViews.DAILY_REPORT) {
+            viewToShow = <DailyReport />;
+        }
+        else if (viewNameToShow === this.childViews.WEEKLY_REPORT) {
+            viewToShow = <WeeklyReport />;
+        }
+
         return (
             <div>
                 <AppBar
                     title="Captain's Log"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     onLeftIconButtonTouchTap={this.navMenuClick} />
+                {viewToShow}
                 <LeftNav
                     docked={false}
                     width={250}
                     open={this.state.open}
                     onRequestChange={this.onRequestChange}>
-                    <MenuItem onTouchTap={this.menuItemClick}>Daily Report</MenuItem>
-                    <MenuItem onTouchTap={this.menuItemClick}>Weekly Report</MenuItem>
+                    <MenuItem onTouchTap={this.showAddEntry}>Add Entry</MenuItem>
+                    <MenuItem onTouchTap={this.showDailyReport}>Daily Report</MenuItem>
+                    <MenuItem onTouchTap={this.showWeeklyReport}>Weekly Report</MenuItem>
                 </LeftNav>
             </div>
         );
