@@ -10,7 +10,7 @@ var PouchDb = require('pouchdb');
 
 var logs = require('./logs');
 var reports = require('./reports');
-var sap = require('./sap');
+var chargeCodes = require('./charge-codes');
 
 var db = new PouchDb('http://localhost:5984/logs');
 
@@ -45,7 +45,7 @@ apiRouter.get('/status', (req, res) => {
 
 apiRouter.use('/logs', logs({ db: db }));
 apiRouter.use('/reports', reports({ db: db }));
-apiRouter.use('/sap', sap());
+apiRouter.use('/charge-codes', chargeCodes());
 
 app.use('/api/v1', apiRouter);
 
