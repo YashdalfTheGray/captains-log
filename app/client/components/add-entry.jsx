@@ -33,7 +33,6 @@ export default class AddEntry extends React.Component {
 
         this.setChargeCode = this.setChargeCode.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
-        this.componentWillUnmount = this.componentWillUnmount.bind(this);
         this.clearForm = this.clearForm.bind(this);
         this.saveNewEntry = this.saveNewEntry.bind(this);
         this.handleTaskNameChange = this.handleTaskNameChange.bind(this);
@@ -44,7 +43,7 @@ export default class AddEntry extends React.Component {
     }
 
     componentWillMount() {
-        this.chargeCodesRequest = $.getJSON('/api/v1/charge-codes').then(result => {
+        $.getJSON('/api/v1/charge-codes').then(result => {
             this.chargeCodes = result;
             this.setState({
                 chargeCode: this.chargeCodes[0].code
@@ -52,11 +51,6 @@ export default class AddEntry extends React.Component {
         }, error => {
             console.log(error);
         });
-    }
-
-    componentWillUnmount() {
-        this.chargeCodesRequest.abort();
-        this.saveDataRequest.abort();
     }
 
     setChargeCode(event, index, value) {
