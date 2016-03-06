@@ -4,6 +4,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import AppRawTheme from './theme';
+import styles from './styles';
 
 import AddEntry from './components/add-entry';
 import DailyReport from './components/daily-report';
@@ -91,10 +92,12 @@ export default class App extends React.Component {
                     title="Captain's Log"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     onLeftIconButtonTouchTap={this.navMenuClick} />
-                {viewToShow}
+                <div style={styles.container}>
+                    {viewToShow}
+                </div>
                 <LeftNav
                     docked={false}
-                    width={250}
+                    width={240}
                     open={this.state.open}
                     onRequestChange={this.onRequestChange}>
                     <MenuItem onTouchTap={this.showAddEntry}>Add Entry</MenuItem>
