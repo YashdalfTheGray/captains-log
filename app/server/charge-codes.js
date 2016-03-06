@@ -22,9 +22,9 @@ module.exports = function() {
 
     var chargeCodesRouter = new Router();
 
-    chargeCodesRouter.get('/codes', (req, res) => {
+    chargeCodesRouter.get('/', (req, res) => {
         res.status(200).json(chargeCodes);
     });
 
-    return sapCodesRouter;
+    return chargeCodesRouter;
 };
