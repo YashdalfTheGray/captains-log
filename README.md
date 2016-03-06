@@ -38,6 +38,7 @@ A listing of the server API is included in the `app/server/captains-log-api.md` 
 * [Material UI Docs](http://www.material-ui.com/#/)
 * [Express Docs](http://expressjs.com/en/4x/api.html)
 * [PouchDB Docs](http://pouchdb.com/api.html)
+* [jQuery AJAX Reference](http://api.jquery.com/category/ajax/)
 * [A Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 * [ES2015 syntax](https://babeljs.io/docs/learn-es2015/)
 * [browserify Docs](https://github.com/substack/node-browserify#usage)
