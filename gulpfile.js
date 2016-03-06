@@ -105,7 +105,7 @@ gulp.task('watch', ['build'], function() {
     "use strict";
     gulp.watch('app/client/**/*.jsx', ['buildjsx']);
     gulp.watch(['app/client/**/*', '!app/client/**/*.jsx'], ['copyclientfiles']);
-    gulp.watch(['app/server/**/*', '!app/server/**/*.md'], ['copyserverfiles']);
+    gulp.watch(['app/server/**/*', '!app/server/**/*.md', '!app/server/sample-sap-codes.json'], ['copyserverfiles']);
 });
 
 gulp.task('copyfiles', ['copyclientfiles', 'copyserverfiles']);
@@ -123,7 +123,8 @@ gulp.task('copyserverfiles', function() {
     "use strict";
     return gulp.src([
         'app/server/**/*',
-        '!app/server/**/*.md'
+        '!app/server/**/*.md',
+        '!app/server/sample-sap-codes.json'
     ])
     .pipe(gulp.dest('dist/server'));
 });
