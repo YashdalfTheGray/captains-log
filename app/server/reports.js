@@ -70,7 +70,8 @@ module.exports = function(config) {
     });
 
     reportsRouter.get('/week', function(req, res) {
-        var thisWeek = getWeekRange(new Date());
+        var datePassedIn = req.query.for ? new Date(parseInt(req.query.for)) : new Date();
+        var thisWeek = getWeekRange(datePassedIn);
         findDocsInRange(config.db, thisWeek.start, thisWeek.end).then(docs => {
             res.status(200).json({
                 start: thisWeek.start.toString(),
