@@ -46,7 +46,7 @@ The format for the report responses is as follows
 
 ### `GET /reports/day`
 
-Generates a report for the current day, returning all the documents found along with the start and end dates.
+Generates a report for the current day, returning all the documents found along with the start and end dates. The query parameter `for` can be used for getting the reports for a specific day. The date passed into the `for` query parameter should be in the unix time format.
 
 ### `GET /reports/week`
 
