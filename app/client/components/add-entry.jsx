@@ -5,6 +5,7 @@ import TextField from 'material-ui/lib/text-field';
 import FlatButton from 'material-ui/lib/flat-button';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Snackbar from 'material-ui/lib/snackbar';
+import DatePicker from 'material-ui/lib/date-picker/date-picker';
 import styles from '../styles';
 import * as _ from 'lodash';
 
@@ -19,7 +20,8 @@ export default class AddEntry extends React.Component {
             timeSpent: '',
             description: '',
             successSnackbarOpen: false,
-            validateSnackbarOpen: false
+            validateSnackbarOpen: false,
+            taskDate: this.randomizeDate(new Date())
         };
 
         this.mdButtonRowStyle = _.assign({
@@ -31,8 +33,10 @@ export default class AddEntry extends React.Component {
             maxWidth: '360px'
         }, styles.flexContainerColumn);
 
-        this.setChargeCode = this.setChargeCode.bind(this);
+        this.randomizeDate = this.randomizeDate.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
+        this.setChargeCode = this.setChargeCode.bind(this);
         this.clearForm = this.clearForm.bind(this);
         this.saveNewEntry = this.saveNewEntry.bind(this);
         this.handleTaskNameChange = this.handleTaskNameChange.bind(this);
@@ -40,6 +44,13 @@ export default class AddEntry extends React.Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleSuccessRequestClose = this.handleSuccessRequestClose.bind(this);
         this.handleValidateRequestClose = this.handleValidateRequestClose.bind(this);
+    }
+
+    randomizeDate(date) {
+        var randomSeconds = Math.floor(Math.random() * 59);
+        var randomMs = Math.floor(Math.random() * 999);
+        date.setSeconds(randomSeconds, randomMs);
+        return date;
     }
 
     componentWillMount() {
@@ -50,6 +61,13 @@ export default class AddEntry extends React.Component {
             });
         }, error => {
             console.log(error);
+        });
+    }
+
+    handleDateChange(event, date) {
+        console.log(this.randomizeDate(date).getTime());
+        this.setState({
+            taskDate: this.randomizeDate(date)
         });
     }
 
@@ -82,7 +100,8 @@ export default class AddEntry extends React.Component {
             chargeCode: this.chargeCodes[0].code,
             task: '',
             timeSpent: '',
-            description: ''
+            description: '',
+            taskDate: this.randomizeDate(new Date())
         });
     }
 
@@ -92,10 +111,8 @@ export default class AddEntry extends React.Component {
             task: this.state.task,
             timeSpent: this.state.timeSpent,
             description: this.state.description,
+            date: this.state.taskDate.getTime()
         };
-
-        console.log(dataToSend);
-        console.log($.isPlainObject(dataToSend));
 
         if (dataToSend.chargeCode && dataToSend.task && dataToSend.timeSpent) {
             $.ajax({
@@ -145,6 +162,10 @@ export default class AddEntry extends React.Component {
             <div style={this.componentStyle}>
                 <h2 style={styles.robotoFont}>Add New Entry</h2>
                 <form>
+                    <DatePicker
+                        hintText="Custom Date (defaults to today)"
+                        value={this.state.taskDate}
+                        onChange={this.handleDateChange} />
                     <SelectField
                         value={this.state.chargeCode}
                         onChange={this.setChargeCode}>
