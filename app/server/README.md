@@ -50,7 +50,7 @@ Generates a report for the current day, returning all the documents found along 
 
 ### `GET /reports/week`
 
-Generates a report for the current week, returning all the documents found along with the start and end dates.
+Generates a report for the current week, returning all the documents found along with the start and end dates. The query parameter `for` can be used for getting the reports for a specific day. The date passed into the `for` query parameter should be in the unix time format.
 
 ## Charge Codes module
 
