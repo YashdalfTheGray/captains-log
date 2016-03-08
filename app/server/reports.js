@@ -56,7 +56,8 @@ module.exports = function(config) {
     var reportsRouter = new Router();
 
     reportsRouter.get('/day', function(req, res) {
-        var today = getDayRange(new Date());
+        var dayToGet = req.query.for ? new Date(parseInt(req.query.for)) : new Date();
+        var today = getDayRange(dayToGet);
         findDocsInRange(config.db, today.start, today.end).then(docs => {
             res.status(200).json({
                 start: today.start.toString(),
