@@ -15,5 +15,8 @@ export default {
     },
     flexItem: {
         flex: '0 1 auto'
+    },
+    hiddenElement: {
+        display: 'none'
     }
 };
