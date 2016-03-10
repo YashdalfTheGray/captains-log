@@ -54,14 +54,15 @@ export default class DailyReport extends React.Component {
     render() {
         var workItems = [];
         _.forEach(this.state.report.entries, i => {
-            var code = _.find(this.state.chargeCodes, chargeCode => {
+            var codeForWork = _.find(this.state.chargeCodes, chargeCode => {
                 return chargeCode.code === i.doc.chargeCode;
             });
             workItems.push(
                 <WorkItem
                     key={i.id}
                     taskName={i.doc.task}
-                    taskType={code.name}
+                    taskType={codeForWork.name}
+                    taskCode={codeForWork.code}
                     time={i.doc.timeSpent}
                     taskDescription={i.doc.description} />
             );
