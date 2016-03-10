@@ -32,7 +32,7 @@ export default class DailyReport extends React.Component {
             this.setState({
                 chargeCodes: result
             });
-        }, error =>{
+        }, error => {
             console.log(error);
         });
     }
@@ -45,7 +45,7 @@ export default class DailyReport extends React.Component {
                 this.setState({
                     report: result
                 });
-            }, error =>{
+            }, error => {
                 console.log(error);
             });
         });
