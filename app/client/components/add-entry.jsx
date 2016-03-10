@@ -180,7 +180,7 @@ export default class AddEntry extends React.Component {
                         value={this.state.timeSpent}
                         onChange={this.handleTimeSpentChange}
                         hintText="(required)"
-                        floatingLabelText="Time Spent" />
+                        floatingLabelText="Time Spent (in hours)" />
                     <TextField
                         value={this.state.description}
                         onChange={this.handleDescriptionChange}
