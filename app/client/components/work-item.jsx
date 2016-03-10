@@ -25,17 +25,20 @@ export default class WorkItem extends React.Component {
     render() {
         var textArea;
         if (this.props.taskDescription) {
-            textArea = <CardText>{this.props.taskDescription}</CardText>;
+            textArea = <p>{this.props.taskDescription}</p>;
         }
         else {
-            textArea = <CardText style={styles.hiddenElement} />
+            textArea = <div style={styles.hiddenElement} />
         }
         return (
             <Card style={this.workItemCardStyle}>
                 <CardHeader
                     title={this.props.taskName}
-                    subtitle={this.props.taskType + ' (' + this.props.time + ')'}/>
-                {textArea}
+                    subtitle={this.props.taskType + ' (' + this.props.taskCode + ')'}/>
+                <CardText>
+                    <p>{this.props.time} hours logged.</p>
+                    {textArea}
+                </CardText>;
             </Card>
         );
     }
