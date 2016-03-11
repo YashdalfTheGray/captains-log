@@ -2,6 +2,8 @@ import React from 'react';
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
 import styles from '../styles';
 
+import WorkItem from './work-item';
+
 export default class WeeklyReport extends React.Component {
 
     constructor(props) {
@@ -42,14 +44,30 @@ export default class WeeklyReport extends React.Component {
                 this.setState({
                     report: result
                 });
-                console.log(result);
-            }, error =>{
+            }, error => {
                 console.log(error);
             });
         });
     }
 
     render() {
+        var workItems = [];
+        _.forEach(this.state.report.entries, i => {
+            var codeForWork = _.find(this.state.chargeCodes, chargeCode => {
+                return chargeCode.code === i.doc.chargeCode;
+            });
+            workItems.push(
+                <WorkItem
+                    key={i.key}
+                    taskName={i.doc.task}
+                    taskType={codeForWork.name}
+                    taskCode={codeForWork.code}
+                    timeSpent={i.doc.timeSpent}
+                    dateLogged={parseInt(i.id.split('_')[1])}
+                    taskDescription={i.doc.description} />
+            );
+        });
+
         return (
             <div>
                 <h2 style={styles.robotoFont}>Weekly Report</h2>
@@ -57,6 +75,7 @@ export default class WeeklyReport extends React.Component {
                     hintText="Report date"
                     value={this.state.dateToReport}
                     onChange={this.handleDateChange} />
+                {workItems}
             </div>
         );
     }
