@@ -59,11 +59,11 @@ export default class DailyReport extends React.Component {
             });
             workItems.push(
                 <WorkItem
-                    key={i.id}
+                    key={i.key}
                     taskName={i.doc.task}
                     taskType={codeForWork.name}
                     taskCode={codeForWork.code}
-                    time={i.doc.timeSpent}
+                    timeSpent={i.doc.timeSpent}
                     taskDescription={i.doc.description} />
             );
         });
