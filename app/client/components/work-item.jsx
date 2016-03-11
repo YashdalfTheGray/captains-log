@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
@@ -9,7 +10,8 @@ export default class WorkItem extends React.Component {
     static propTypes = {
         taskName: React.PropTypes.string.isRequired,
         taskType: React.PropTypes.string.isRequired,
-        time: React.PropTypes.string.isRequired,
+        timeSpent: React.PropTypes.string.isRequired,
+        dateLogged: React.PropTypes.number,
         taskDescription: React.PropTypes.string
     }
 
@@ -23,12 +25,21 @@ export default class WorkItem extends React.Component {
     }
 
     render() {
-        var textArea;
+        var textArea, timeDetails;
         if (this.props.taskDescription) {
             textArea = <p>{this.props.taskDescription}</p>;
         }
         else {
-            textArea = <div style={styles.hiddenElement} />
+            textArea = <div style={styles.hiddenElement} />;
+        }
+
+        if (this.props.dateLogged) {
+            var parsedDate = moment(this.props.dateLogged);
+            var dateFormatString = 'dddd, MMMM D YYYY';
+            timeDetails = <p>{this.props.timeSpent} hours logged on {parsedDate.format(dateFormatString)}.</p>;
+        }
+        else {
+            timeDetails = <p>{this.props.timeSpent} hours logged.</p>;
         }
         return (
             <Card style={this.workItemCardStyle}>
@@ -36,7 +47,7 @@ export default class WorkItem extends React.Component {
                     title={this.props.taskName}
                     subtitle={this.props.taskType + ' (' + this.props.taskCode + ')'}/>
                 <CardText>
-                    <p>{this.props.time} hours logged.</p>
+                    {timeDetails}
                     {textArea}
                 </CardText>;
             </Card>
