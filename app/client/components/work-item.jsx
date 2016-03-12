@@ -3,6 +3,9 @@ import moment from 'moment';
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
+import CardActions from 'material-ui/lib/card/card-actions';
+import FlatButton from 'material-ui/lib/flat-button';
+
 import styles from '../styles';
 
 export default class WorkItem extends React.Component {
@@ -45,11 +48,20 @@ export default class WorkItem extends React.Component {
             <Card style={this.workItemCardStyle}>
                 <CardHeader
                     title={this.props.taskName}
-                    subtitle={this.props.taskType + ' (' + this.props.taskCode + ')'}/>
-                <CardText>
+                    subtitle={this.props.taskType + ' (' + this.props.taskCode + ')'}
+                    actAsExpander={true}
+                    showExpandableButton={true} />
+                <CardText
+                    expandable={true}>
                     {timeDetails}
                     {textArea}
                 </CardText>;
+                <CardActions
+                    expandable={true}>
+                    <FlatButton
+                        label="Delete"
+                        onTouchTap={this.props.handleItemDelete} />
+                </CardActions>
             </Card>
         );
     }
