@@ -18,6 +18,8 @@ export default class DailyReport extends React.Component {
             successSnackbarOpen: false
         };
 
+        this.workItemStyle =  _.assign({}, styles.flexContainerRow, styles.flexWrap);
+
         this.componentWillMount = this.componentWillMount.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSuccessRequestClose = this.handleSuccessRequestClose.bind(this);
@@ -108,7 +110,9 @@ export default class DailyReport extends React.Component {
                     hintText="Report date"
                     value={this.state.dateToReport}
                     onChange={this.handleDateChange} />
-                {workItems}
+                <div style={this.workItemStyle}>
+                    {workItems}
+                </div>
                 <Snackbar
                     style={styles.robotoFont}
                     open={this.state.successSnackbarOpen}
