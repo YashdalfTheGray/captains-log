@@ -8,6 +8,7 @@ import TableRow from 'material-ui/lib/table/table-row';
 import TableRowColumn from 'material-ui/lib/table/table-row-column';
 import TableBody from 'material-ui/lib/table/table-body';
 import Table from 'material-ui/lib/table/table';
+import Snackbar from 'material-ui/lib/snackbar';
 
 import styles from '../styles';
 import WorkItem from './work-item';
@@ -20,7 +21,8 @@ export default class WeeklyReport extends React.Component {
         this.state = {
             dateToReport: new Date(),
             report: {},
-            chargeCodes: []
+            chargeCodes: [],
+            successSnackbarOpen: false
         };
 
         this.tableStyle = {
@@ -29,6 +31,7 @@ export default class WeeklyReport extends React.Component {
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleSuccessRequestClose = this.handleSuccessRequestClose.bind(this);
     }
 
     componentWillMount() {
@@ -62,6 +65,36 @@ export default class WeeklyReport extends React.Component {
         });
     }
 
+    handleItemDelete(id) {
+        var updatedReport = this.state.report;
+        _.remove(updatedReport.entries, function(value) {
+            return value.id === id;
+        });
+        this.setState({
+            report: updatedReport
+        })
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/logs/' + id,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            success: result => {
+                if (result.ok) {
+                    this.setState({
+                        successSnackbarOpen: true
+                    });
+                }
+            }
+        });
+    }
+
+    handleSuccessRequestClose() {
+        this.setState({
+            successSnackbarOpen: false
+        });
+    }
+
     render() {
         var workItems = [], workTableRows = [];
 
@@ -80,7 +113,8 @@ export default class WeeklyReport extends React.Component {
                     taskCode={codeForWork.code}
                     timeSpent={i.doc.timeSpent}
                     dateLogged={unixDate}
-                    taskDescription={i.doc.description} />
+                    taskDescription={i.doc.description}
+                    handleItemDelete={this.handleItemDelete.bind(this, i.id)} />
             );
         });
 
@@ -110,6 +144,12 @@ export default class WeeklyReport extends React.Component {
                     </TableBody>
                 </Table>
                 {workItems}
+                <Snackbar
+                    style={styles.robotoFont}
+                    open={this.state.successSnackbarOpen}
+                    message="Entry deleted!"
+                    autoHideDuration={3000}
+                    onRequestClose={this.handleSuccessRequestClose} />
             </div>
         );
     }
