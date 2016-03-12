@@ -16,6 +16,10 @@ export default {
     flexItem: {
         flex: '0 1 auto'
     },
+    flexWrap: {
+        flexWrap: 'wrap',
+        alignItems: 'center'
+    },
     hiddenElement: {
         display: 'none'
     }
