@@ -1,7 +1,15 @@
 import React from 'react';
+import * as _ from 'lodash';
+import moment from 'moment';
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
-import styles from '../styles';
+import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
+import TableHeader from 'material-ui/lib/table/table-header';
+import TableRow from 'material-ui/lib/table/table-row';
+import TableRowColumn from 'material-ui/lib/table/table-row-column';
+import TableBody from 'material-ui/lib/table/table-body';
+import Table from 'material-ui/lib/table/table';
 
+import styles from '../styles';
 import WorkItem from './work-item';
 
 export default class WeeklyReport extends React.Component {
@@ -13,6 +21,10 @@ export default class WeeklyReport extends React.Component {
             dateToReport: new Date(),
             report: {},
             chargeCodes: []
+        };
+
+        this.tableStyle = {
+            margin: '16px 0px'
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -51,11 +63,15 @@ export default class WeeklyReport extends React.Component {
     }
 
     render() {
-        var workItems = [];
+        var workItems = [], workTableRows = [];
+
         _.forEach(this.state.report.entries, i => {
             var codeForWork = _.find(this.state.chargeCodes, chargeCode => {
                 return chargeCode.code === i.doc.chargeCode;
             });
+
+            var unixDate = parseInt(i.id.split('_')[1]);
+
             workItems.push(
                 <WorkItem
                     key={i.key}
@@ -63,7 +79,7 @@ export default class WeeklyReport extends React.Component {
                     taskType={codeForWork.name}
                     taskCode={codeForWork.code}
                     timeSpent={i.doc.timeSpent}
-                    dateLogged={parseInt(i.id.split('_')[1])}
+                    dateLogged={unixDate}
                     taskDescription={i.doc.description} />
             );
         });
@@ -75,6 +91,24 @@ export default class WeeklyReport extends React.Component {
                     hintText="Report date"
                     value={this.state.dateToReport}
                     onChange={this.handleDateChange} />
+
+                <Table style={this.tableStyle}>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderColumn>Charge Code</TableHeaderColumn>
+                            <TableHeaderColumn>Monday</TableHeaderColumn>
+                            <TableHeaderColumn>Tuesday</TableHeaderColumn>
+                            <TableHeaderColumn>Wednesday</TableHeaderColumn>
+                            <TableHeaderColumn>Thursday</TableHeaderColumn>
+                            <TableHeaderColumn>Friday</TableHeaderColumn>
+                            <TableHeaderColumn>Saturday</TableHeaderColumn>
+                            <TableHeaderColumn>Sunday</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {workTableRows}
+                    </TableBody>
+                </Table>
                 {workItems}
             </div>
         );
