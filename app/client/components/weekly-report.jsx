@@ -25,9 +25,8 @@ export default class WeeklyReport extends React.Component {
             successSnackbarOpen: false
         };
 
-        this.tableStyle = {
-            margin: '16px 0px'
-        };
+        this.workItemStyle = _.assign({ marginTop: '32px' }, styles.flexContainerRow, styles.flexWrap);
+        this.lighterText = { color: '#E0E0E0' };
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -96,7 +95,11 @@ export default class WeeklyReport extends React.Component {
     }
 
     render() {
-        var workItems = [], workTableRows = [];
+        var workItems = [], rowDataset = [], workTableRows = [];
+
+        _.forEach(this.state.chargeCodes, c => {
+            rowDataset.push([c.code, 0, 0, 0, 0, 0, 0, 0]);
+        });
 
         _.forEach(this.state.report.entries, i => {
             var codeForWork = _.find(this.state.chargeCodes, chargeCode => {
@@ -104,6 +107,14 @@ export default class WeeklyReport extends React.Component {
             });
 
             var unixDate = parseInt(i.id.split('_')[1]);
+            var weekDayNumber = moment(unixDate).day();
+            weekDayNumber = weekDayNumber === 0 ? 7 : weekDayNumber;
+
+            var rowIndex = _.findIndex(rowDataset, row => {
+                return row[0] === codeForWork.code;
+            });
+
+            rowDataset[rowIndex][weekDayNumber] += Number(i.doc.timeSpent);
 
             workItems.push(
                 <WorkItem
@@ -118,6 +129,24 @@ export default class WeeklyReport extends React.Component {
             );
         });
 
+        _.forEach(rowDataset, dataRow => {
+            var columns = [], columnNumber = 0;
+            _.forEach(dataRow, e => {
+                var columnToPush;
+                if (e === 0) {
+                    columnToPush = <TableRowColumn key={columnNumber} style={this.lighterText}>{e}</TableRowColumn>
+                }
+                else {
+                    columnToPush = <TableRowColumn key={columnNumber}>{e}</TableRowColumn>;
+                }
+                columns.push(columnToPush);
+                columnNumber++;
+            });
+            workTableRows.push(
+                <TableRow key={dataRow[0]}>{columns}</TableRow>
+            );
+        })
+
         return (
             <div>
                 <h2 style={styles.robotoFont}>Weekly Report</h2>
@@ -126,9 +155,9 @@ export default class WeeklyReport extends React.Component {
                     value={this.state.dateToReport}
                     onChange={this.handleDateChange} />
 
-                <Table style={this.tableStyle}>
+                <Table>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow displayBorder={false}>
                             <TableHeaderColumn>Charge Code</TableHeaderColumn>
                             <TableHeaderColumn>Monday</TableHeaderColumn>
                             <TableHeaderColumn>Tuesday</TableHeaderColumn>
@@ -143,7 +172,9 @@ export default class WeeklyReport extends React.Component {
                         {workTableRows}
                     </TableBody>
                 </Table>
-                {workItems}
+                <div style={this.workItemStyle}>
+                    {workItems}
+                </div>
                 <Snackbar
                     style={styles.robotoFont}
                     open={this.state.successSnackbarOpen}
