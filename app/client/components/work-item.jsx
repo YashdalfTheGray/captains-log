@@ -19,7 +19,7 @@ export default class WorkItem extends React.Component {
         super(props);
 
         this.workItemCardStyle = {
-            maxWidth: '400px',
+            maxWidth: '360px',
             margin: '16px'
         };
     }
