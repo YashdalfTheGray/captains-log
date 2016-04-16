@@ -163,7 +163,7 @@ export default class WeeklyReport extends React.Component {
                         adjustForCheckbox={false}
                         displaySelectAll={false}
                         enableSelectAll={false}>
-                        <MediaQuery maxDeviceWidth={1280} minDeviceWidth={841} component={TableRow} displayBorder={false}>
+                        <MediaQuery minDeviceWidth={841} component={TableRow} displayBorder={false}>
                             <TableHeaderColumn>Code</TableHeaderColumn>
                             <TableHeaderColumn>Monday</TableHeaderColumn>
                             <TableHeaderColumn>Tuesday</TableHeaderColumn>
