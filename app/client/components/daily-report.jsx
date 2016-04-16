@@ -1,7 +1,7 @@
 import React from 'react';
 import * as _ from 'lodash';
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
-import Snackbar from 'material-ui/lib/snackbar';
+import DatePicker from 'material-ui/DatePicker';
+import Snackbar from 'material-ui/Snackbar';
 
 import styles from '../styles';
 import WorkItem from './work-item';

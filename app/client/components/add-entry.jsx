@@ -1,13 +1,14 @@
 import React from 'react';
-import SelectField from 'material-ui/lib/select-field';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import TextField from 'material-ui/lib/text-field';
-import FlatButton from 'material-ui/lib/flat-button';
-import RaisedButton from 'material-ui/lib/raised-button';
-import Snackbar from 'material-ui/lib/snackbar';
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
-import styles from '../styles';
 import * as _ from 'lodash';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
+import DatePicker from 'material-ui/DatePicker';
+
+import styles from '../styles';
 
 export default class AddEntry extends React.Component {
 
@@ -160,7 +161,7 @@ export default class AddEntry extends React.Component {
 
         return (
             <div style={this.componentStyle}>
-                <h2 style={styles.robotoFont}>Add New Entry</h2>
+                <h2>Add New Entry</h2>
                 <form>
                     <DatePicker
                         hintText="Custom Date (defaults to today)"
@@ -201,13 +202,11 @@ export default class AddEntry extends React.Component {
                     </div>
                 </form>
                 <Snackbar
-                    style={styles.robotoFont}
                     open={this.state.successSnackbarOpen}
                     message="New log entry saved!"
                     autoHideDuration={3000}
                     onRequestClose={this.handleSuccessRequestClose} />
                 <Snackbar
-                    style={styles.robotoFont}
                     open={this.state.validateSnackbarOpen}
                     message="Log Entry is missing fields."
                     autoHideDuration={3000}

@@ -1,20 +1,19 @@
 import React from 'react';
-import AppBar from 'material-ui/lib/app-bar';
-import LeftNav from 'material-ui/lib/left-nav';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import AppRawTheme from './theme';
 import styles from './styles';
-
 import AddEntry from './components/add-entry';
 import DailyReport from './components/daily-report';
 import WeeklyReport from './components/weekly-report';
 
-export default class App extends React.Component {
+const appMuiTheme = getMuiTheme(AppRawTheme);
 
-    static childContextTypes = {
-        muiTheme: React.PropTypes.object
-    }
+export default class App extends React.Component {
 
     constructor(props) {
         super(props);
@@ -29,18 +28,11 @@ export default class App extends React.Component {
             WEEKLY_REPORT: 'weekly-report'
         }
 
-        this.getChildContext = this.getChildContext.bind(this);
         this.navMenuClick = this.navMenuClick.bind(this);
         this.showAddEntry = this.showAddEntry.bind(this);
         this.showDailyReport = this.showDailyReport.bind(this);
         this.showWeeklyReport = this.showWeeklyReport.bind(this);
         this.onRequestChange = this.onRequestChange.bind(this);
-    }
-
-    getChildContext() {
-        return {
-            muiTheme: getMuiTheme(AppRawTheme)
-        };
     }
 
     navMenuClick() {
@@ -87,24 +79,25 @@ export default class App extends React.Component {
         }
 
         return (
-            <div>
-                <AppBar
-                    title="Captain's Log"
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
-                    onLeftIconButtonTouchTap={this.navMenuClick} />
-                <div style={styles.container}>
-                    {viewToShow}
+            <MuiThemeProvider muiTheme={appMuiTheme}>
+                <div>
+                    <AppBar
+                        title="Captain's Log"
+                        iconClassNameRight="muidocs-icon-navigation-expand-more"
+                        onLeftIconButtonTouchTap={this.navMenuClick} />
+                    <div style={styles.container}>
+                        {viewToShow}
+                    </div>
+                    <Drawer
+                        docked={false}
+                        open={this.state.open}
+                        onRequestChange={this.onRequestChange}>
+                        <MenuItem onTouchTap={this.showAddEntry}>Add Entry</MenuItem>
+                        <MenuItem onTouchTap={this.showDailyReport}>Daily Report</MenuItem>
+                        <MenuItem onTouchTap={this.showWeeklyReport}>Weekly Report</MenuItem>
+                    </Drawer>
                 </div>
-                <LeftNav
-                    docked={false}
-                    width={240}
-                    open={this.state.open}
-                    onRequestChange={this.onRequestChange}>
-                    <MenuItem onTouchTap={this.showAddEntry}>Add Entry</MenuItem>
-                    <MenuItem onTouchTap={this.showDailyReport}>Daily Report</MenuItem>
-                    <MenuItem onTouchTap={this.showWeeklyReport}>Weekly Report</MenuItem>
-                </LeftNav>
-            </div>
+            </MuiThemeProvider>
         );
     }
 }
