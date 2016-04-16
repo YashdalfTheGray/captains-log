@@ -1,14 +1,17 @@
 import React from 'react';
 import * as _ from 'lodash';
 import moment from 'moment';
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
-import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
-import TableHeader from 'material-ui/lib/table/table-header';
-import TableRow from 'material-ui/lib/table/table-row';
-import TableRowColumn from 'material-ui/lib/table/table-row-column';
-import TableBody from 'material-ui/lib/table/table-body';
-import Table from 'material-ui/lib/table/table';
-import Snackbar from 'material-ui/lib/snackbar';
+import DatePicker from 'material-ui/DatePicker';
+import {
+    Table,
+    TableHeader,
+    TableHeaderColumn,
+    TableBody,
+    TableRow,
+    TableRowColumn
+} from 'material-ui/Table';
+import Snackbar from 'material-ui/Snackbar';
+import MediaQuery from 'react-responsive';
 
 import styles from '../styles';
 import WorkItem from './work-item';
@@ -156,9 +159,12 @@ export default class WeeklyReport extends React.Component {
                     onChange={this.handleDateChange} />
 
                 <Table>
-                    <TableHeader>
-                        <TableRow displayBorder={false}>
-                            <TableHeaderColumn>Charge Code</TableHeaderColumn>
+                    <TableHeader
+                        adjustForCheckbox={false}
+                        displaySelectAll={false}
+                        enableSelectAll={false}>
+                        <MediaQuery maxDeviceWidth={1280} minDeviceWidth={841} component={TableRow} displayBorder={false}>
+                            <TableHeaderColumn>Code</TableHeaderColumn>
                             <TableHeaderColumn>Monday</TableHeaderColumn>
                             <TableHeaderColumn>Tuesday</TableHeaderColumn>
                             <TableHeaderColumn>Wednesday</TableHeaderColumn>
@@ -166,9 +172,29 @@ export default class WeeklyReport extends React.Component {
                             <TableHeaderColumn>Friday</TableHeaderColumn>
                             <TableHeaderColumn>Saturday</TableHeaderColumn>
                             <TableHeaderColumn>Sunday</TableHeaderColumn>
-                        </TableRow>
+                        </MediaQuery>
+                        <MediaQuery maxDeviceWidth={840} minDeviceWidth={481} component={TableRow} displayBorder={false}>
+                            <TableHeaderColumn>Code</TableHeaderColumn>
+                            <TableHeaderColumn>Mon</TableHeaderColumn>
+                            <TableHeaderColumn>Tues</TableHeaderColumn>
+                            <TableHeaderColumn>Wed</TableHeaderColumn>
+                            <TableHeaderColumn>Thurs</TableHeaderColumn>
+                            <TableHeaderColumn>Fri</TableHeaderColumn>
+                            <TableHeaderColumn>Sat</TableHeaderColumn>
+                            <TableHeaderColumn>Sun</TableHeaderColumn>
+                        </MediaQuery>
+                        <MediaQuery maxDeviceWidth={480} component={TableRow} displayBorder={false}>
+                            <TableHeaderColumn>Code</TableHeaderColumn>
+                            <TableHeaderColumn>M</TableHeaderColumn>
+                            <TableHeaderColumn>T</TableHeaderColumn>
+                            <TableHeaderColumn>W</TableHeaderColumn>
+                            <TableHeaderColumn>Th</TableHeaderColumn>
+                            <TableHeaderColumn>F</TableHeaderColumn>
+                            <TableHeaderColumn>S</TableHeaderColumn>
+                            <TableHeaderColumn>S</TableHeaderColumn>
+                        </MediaQuery>
                     </TableHeader>
-                    <TableBody>
+                    <TableBody displayRowCheckbox={false}>
                         {workTableRows}
                     </TableBody>
                 </Table>
