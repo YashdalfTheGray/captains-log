@@ -17,6 +17,8 @@ var db = new PouchDb('http://localhost:5984/logs');
 var app = express();
 var apiRouter = new express.Router();
 
+var appPort = process.argv[2] || 8080;
+
 morgan.token('color_status', (req, res) => {
     if (res.statusCode < 300) {
         return chalk.green(res.statusCode);
@@ -39,6 +41,16 @@ app.use(morgan(':remote-addr - ' +
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '/../client')));
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
+
+apiRouter.options('*', (req, res) => {
+    res.sendStatus(200);
+});
+
 apiRouter.get('/status', (req, res) => {
     res.status(200).json({ status: 'live' });
 });
@@ -49,4 +61,6 @@ apiRouter.use('/charge-codes', chargeCodes());
 
 app.use('/api/v1', apiRouter);
 
-app.listen(process.argv[2] || 8080);
+app.listen(appPort);
+
+console.log('Listening on port ' + chalk.magenta(appPort));
